@@ -1,3 +1,5 @@
+from django.db.models import F
+
 from apps.advertisement.models import Advert
 
 
@@ -24,5 +26,5 @@ class AdvertisementService:
 
     def _increment_views(self, advert: Advert) -> None:
         """Увеличивает счетчик просмотров объявления"""
-        advert.views += 1
+        advert.views = F('views') + 1 # операция исполняется атомарно, чтобы избежать проблем с конкурентностью на уровне БД
         advert.save(update_fields=['views'])
