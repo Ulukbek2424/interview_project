@@ -20,8 +20,9 @@ class AdvertisementService:
         """Отдает информацию об одном объявлении"""
         advert = Advert.objects.select_related('category', 'city').filter(pk=advert_id).first()
         if advert:
+            views_count = advert.views + 1
             self._increment_views(advert)
-            return advert.to_dict()
+            return advert.to_dict(views_count)
         return {}
 
     def _increment_views(self, advert: Advert) -> None:

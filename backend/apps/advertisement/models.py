@@ -43,7 +43,7 @@ class Advert(Model):
     city = ForeignKey(City, PROTECT, related_name='adverts', verbose_name='Город')
     views = PositiveIntegerField('Просмотры', blank=True, default=0)
 
-    def to_dict(self):
+    def to_dict(self, views_count: int | None = None):
         return {
             'identifier': str(self.pk),
             'created': self.created,
@@ -51,7 +51,7 @@ class Advert(Model):
             'description': self.description,
             'category': self.category.name if self.category else '',
             'city': self.city.name if self.city else '',
-            'views': self.views
+            'views': views_count if views_count else self.views
         }
 
     class Meta:
